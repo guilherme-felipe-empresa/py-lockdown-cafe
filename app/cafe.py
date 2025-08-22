@@ -8,14 +8,17 @@ class Cafe:
     def __init__(self, name: str) -> None:
         self.name = name
 
-    def visit_cafe(self, visitor: dict) -> str | Exception:
+    def visit_cafe(self, visitor: dict) -> str:
         if "vaccine" not in visitor:
-            raise NotVaccinatedError("you no vaccined")
+            error = "Visitor is not vaccinated. Entry denied."
+            raise NotVaccinatedError(error)
 
         if visitor["vaccine"]["expiration_date"] < datetime.date.today():
-            raise OutdatedVaccineError("your vaccine is expiration date")
+            error = "Visitor's vaccine has expired. Entry denied."
+            raise OutdatedVaccineError(error)
 
         if "wearing_a_mask" not in visitor or not visitor["wearing_a_mask"]:
-            raise NotWearingMaskError("you need to be wearing a mask")
+            error = "Visitor is not wearing a mask. Entry denied."
+            raise NotWearingMaskError(error)
 
         return f"Welcome to {self.name}"
